@@ -1,0 +1,265 @@
+/* ============================================================
+   Компоненти: шапка, кнопки, картки, значки
+   ============================================================ */
+
+/* ─── шапка ─── */
+.site-head {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  /* Суцільний фон замість backdrop-filter: розмиття підкладки
+     перераховується щокадру прокрутки й було другою за вартістю
+     операцією на сторінці. Різниця у вигляді мінімальна. */
+  background: var(--bg);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.site-head__bar {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  height: 70px;
+}
+
+.wordmark {
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -.05em;
+  text-decoration: none;
+}
+
+/* Крапка градієнтом — найдешевший спосіб внести знак бренду
+   без окремого логотипа. */
+.wordmark i {
+  font-style: normal;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.site-nav {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 26px;
+}
+
+.site-nav a:not(.btn) {
+  font-size: 14px;
+  color: var(--fg-3);
+  text-decoration: none;
+  transition: color .2s var(--ease);
+}
+
+.site-nav a:not(.btn):hover { color: var(--fg); }
+
+@media (max-width: 780px) {
+  .site-nav a:not(.btn) { display: none; }
+}
+
+/* Смужка прокрутки — вона ж індикатор прогресу сторінки */
+.scroll-line {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 2px;
+  width: 0;
+  background: var(--grad);
+  transition: width .1s linear;
+}
+
+/* ─── кнопки ─── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 12px 22px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform .2s var(--spring), background .2s var(--ease),
+              border-color .2s var(--ease), box-shadow .3s var(--ease);
+}
+
+.btn:active { transform: scale(.97); }
+
+.btn--main {
+  background: var(--grad);
+  color: #fff;
+  box-shadow: 0 6px 20px -8px var(--n1);
+}
+
+.btn--main:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px -10px var(--n1);
+}
+
+[data-theme="light"] .btn--main { color: #fff; }
+
+.btn--ghost {
+  background: var(--surface);
+  border-color: var(--hairline-2);
+  color: var(--fg);
+}
+
+.btn--ghost:hover { background: var(--surface-2); }
+
+.btn--icon {
+  padding: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--surface);
+  border-color: var(--hairline);
+  color: var(--fg-2);
+}
+
+.btn--icon:hover { background: var(--surface-2); color: var(--fg); }
+
+/* ─── картки ─── */
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 32px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  overflow: hidden;
+  /* Анімуємо лише колір рамки. Зсув картки при наведенні змушував
+     браузер перераховувати розкладку сусідів — на списку карток це помітно. */
+  transition: border-color .25s var(--ease);
+}
+
+.card:hover { border-color: var(--hairline-2); }
+
+/* Тонка градієнтна лінія зверху проступає при наведенні —
+   натяк на бренд без розфарбовування всієї картки. */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: var(--grad);
+  opacity: 0;
+  transition: opacity .3s var(--ease);
+}
+
+.card:hover::before { opacity: 1; }
+
+.card__kicker {
+  margin: 0 0 14px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.card__body {
+  color: var(--fg-2);
+  font-size: 15px;
+  margin: 10px 0 0;
+}
+
+.card__foot {
+  margin-top: auto;
+  padding-top: 26px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Картка продукту, якого ще немає. Пунктир чесніший за
+   повноцінну картку з неактивною кнопкою. */
+.card--soon {
+  background: transparent;
+  border-style: dashed;
+}
+
+.card--soon::before { display: none; }
+
+/* ─── значки ─── */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 11px;
+  border: 1px solid var(--hairline-2);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.tag--live {
+  border-color: color-mix(in srgb, var(--n2) 45%, transparent);
+  color: var(--n2);
+}
+
+/* Код блоку пісні — справжня нотація з програми.
+   Тут вона працює як маркер розділу, бо означає порядок показу. */
+.code {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  padding: 5px 10px;
+  border: 1px solid var(--hairline-2);
+  border-radius: 8px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  color: var(--fg-2);
+}
+
+/* ─── поява при прокрутці ─── */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .7s var(--ease), transform .7s var(--ease);
+}
+
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ─── підвал ─── */
+.site-foot {
+  border-top: 1px solid var(--hairline);
+  padding: 46px 0 64px;
+  color: var(--fg-3);
+  font-size: 14px;
+}
+
+.site-foot__grid {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.site-foot__grid a {
+  color: var(--fg-3);
+  text-decoration: none;
+  transition: color .2s var(--ease);
+}
+
+.site-foot__grid a:hover { color: var(--fg); }
+
+.site-foot__end { margin-left: auto; }
+
+@media (max-width: 720px) {
+  .site-foot__end { margin-left: 0; }
+}
