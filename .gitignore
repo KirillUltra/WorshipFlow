@@ -1,0 +1,5 @@
+Aedisyn/downloads/
+Aedisyn/worshipflow/updates/
+*.exe
+*.nupkg
+*.zip
